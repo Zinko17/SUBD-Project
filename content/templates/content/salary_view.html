@@ -1,0 +1,152 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Выдача зарплаты</title>
+    <link rel="stylesheet" href="{% static 'content/css/salaries.css' %}">
+</head>
+<body>
+
+<header class="site-header">
+    <nav class="site-nav">
+        <div class="container">
+            <ul class="nav-menu">
+                <li><a href="{% url 'home' %}">Главная</a></li>
+                <li><a href="{% url 'salary_view' %}">Зарплата</a></li>
+                <li><a href="{% url 'budget_list' %}">Бюджет</a></li>
+            </ul>
+        </div>
+    </nav>
+</header>
+
+<main class="container">
+    <h1>Выдача зарплаты</h1>
+
+    {% if messages %}
+        <div class="messages">
+            {% for message in messages %}
+                <div class="message {{ message.tags }}">{{ message }}</div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <form method="POST">
+        {% csrf_token %}
+        <div class="form-row">
+            <div class="form-group">
+                <label for="year">Год:</label>
+                <select name="year" id="year" required>
+                    <option value="" disabled {% if not selected_year %}selected{% endif %}>Выберите год</option>
+                    {% for year in years %}
+                        <option value="{{ year }}" {% if selected_year == year %}selected{% endif %}>{{ year }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="month">Месяц:</label>
+                <select name="month" id="month" required>
+                    <option value="" disabled {% if not selected_month %}selected{% endif %}>Выберите месяц</option>
+                    {% for num, name in months %}
+                        <option value="{{ num }}" {% if selected_month == num %}selected{% endif %}>{{ name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+    </form>
+
+    {% if salaries %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Сотрудник</th>
+                    <th>Оклад</th>
+                    <th>Покупки</th>
+                    <th>Производства</th>
+                    <th>Продажи</th>
+                    <th>Всего</th>
+                    <th>Бонус</th>
+                    <th>Зарплата</th>
+                    <th>Статус</th>
+                    <th>Действие</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for salary in salaries %}
+                    <tr>
+                        {% if not salary.is_paid %}
+                        <form method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="action" value="update_salary">
+                            <input type="hidden" name="salary_id" value="{{ salary.salaryid }}">
+                            <td>{{ salary.employeeid.fullname }}</td>
+                            <td>{{ salary.employeeid.salary }}</td>
+                            <td>{{ salary.purchase_count }}</td>
+                            <td>{{ salary.production_count }}</td>
+                            <td>{{ salary.sale_count }}</td>
+                            <td>{{ salary.total_activities }}</td>
+                            <td>{{ salary.bonus_percent|floatformat:2 }}</td>
+                            <td>
+                                <input type="number" name="total_salary" value="{{ salary.total_salary }}" step="0.01" min="0" required>
+                            </td>
+                            <td>Не выдано</td>
+                            <td><button type="submit">💾 Сохранить</button></td>
+                        </form>
+                        {% else %}
+                            <td>{{ salary.employeeid.fullname }}</td>
+                            <td>{{ salary.employeeid.salary }}</td>
+                            <td>{{ salary.purchase_count }}</td>
+                            <td>{{ salary.production_count }}</td>
+                            <td>{{ salary.sale_count }}</td>
+                            <td>{{ salary.total_activities }}</td>
+                            <td>{{ salary.bonus_percent|floatformat:2 }}</td>
+                            <td>{{ salary.total_salary }}</td>
+                            <td>Выдано</td>
+                            <td>—</td>
+                        {% endif %}
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="total-salary" style="margin-top: 20px;">
+            <strong>Общая сумма к выплате: </strong> {{ total_salary }}
+        </div>
+
+        {% if is_calculated %}
+        <form method="post" style="margin-top: 15px;">
+            {% csrf_token %}
+            <input type="hidden" name="pay" value="1">
+            <input type="hidden" name="year" value="{{ selected_year }}">
+            <input type="hidden" name="month" value="{{ selected_month }}">
+            <input type="hidden" name="total_salary" value="{{ total_salary }}">
+            <button type="submit">💸 Выплатить зарплату</button>
+        </form>
+        {% endif %}
+    {% endif %}
+
+    <a href="{% url 'home' %}" class="btn" style="margin-top: 25px; display: inline-block;">🔙 Назад</a>
+</main>
+
+<footer class="site-footer">
+    <p>&copy; 2025 Учет производства продуктов</p>
+</footer>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const yearSelect = document.getElementById("year");
+        const monthSelect = document.getElementById("month");
+
+        function autoSubmit() {
+            if (yearSelect.value && monthSelect.value) {
+                yearSelect.form.submit();
+            }
+        }
+
+        yearSelect.addEventListener("change", autoSubmit);
+        monthSelect.addEventListener("change", autoSubmit);
+    });
+</script>
+
+</body>
+</html>

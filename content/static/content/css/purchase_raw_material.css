@@ -1,0 +1,185 @@
+/* Сброс базовых стилей и настройка box-sizing */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Заставляем html и body занимать всю высоту */
+html, body {
+    height: 100%;
+}
+
+/* Основные настройки страницы и flex-контейнер для "липкого" футера */
+body {
+    font-family: 'Arial', sans-serif;
+    line-height: 1.6;
+    background-color: #f0f0f0;  /* немного темнее, чем прежний #fafafa */
+    color: #333;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Контейнер для центрирования контента */
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+/* Стили для шапки сайта */
+.site-header {
+    background-color: #dcdcdc;  /* немного темнее и нейтральнее */
+    color: #333;
+    padding: 20px 0;
+    text-align: center;
+    border-bottom: 1px solid #b0b0b0;
+}
+
+/* Стили для навигационного меню */
+.site-nav {
+    background-color: #d3d3d3;  /* нейтральный средний серый */
+}
+
+.nav-menu {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+}
+
+.nav-menu li {
+    margin: 0 10px;
+}
+
+.nav-menu li a {
+    display: block;
+    padding: 15px 20px;
+    color: #495057;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.nav-menu li a:hover {
+    background-color: #b8b8b8;  /* чуть темнее при наведении */
+    border-radius: 4px;
+}
+
+/* Основной контент занимает оставшееся пространство */
+main {
+    flex: 1;
+    padding: 40px 0;
+    text-align: center;
+}
+
+/* Стили для формы */
+.form-group {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 8px;
+}
+
+select, input[type="number"], input[type="date"], input[type="text"] {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #fff;
+    transition: border-color 0.3s;
+}
+
+select:focus, input[type="number"]:focus, input[type="date"]:focus, input[type="text"]:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+input[type="number"] {
+    -moz-appearance: textfield;
+}
+
+input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+}
+
+/* Кнопки */
+button[type="submit"], .btn-submit {
+    background-color: #6c757d; /* нейтральный серый */
+    color: white;
+    font-size: 18px;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+    transition: background-color 0.3s;
+}
+
+button[type="submit"]:hover, .btn-submit:hover {
+    background-color: #5a6268; /* темнее при наведении */
+}
+
+/* Стили для сообщений */
+.messages {
+    margin-bottom: 20px;
+}
+
+.alert {
+    padding: 15px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.alert.success {
+    background-color: #d4edda;
+    border: 1px solid #c3e6cb;
+    color: #155724;
+}
+
+.alert.error {
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+    color: #721c24;
+}
+
+.alert.info {
+    background-color: #d1ecf1;
+    border: 1px solid #bee5eb;
+    color: #0c5460;
+}
+
+/* Стили для ссылок */
+a {
+    color: #007bff;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* Стили для футера */
+.site-footer {
+    background-color: #dcdcdc;  /* аналогичный шапке */
+    color: #6c757d;
+    text-align: center;
+    padding: 15px 0;
+    border-top: 1px solid #b0b0b0;
+}
+
+/* Адаптивность: для небольших экранов */
+@media (max-width: 768px) {
+    .nav-menu {
+        flex-direction: column;
+    }
+    .nav-menu li {
+        margin: 5px 0;
+    }
+}

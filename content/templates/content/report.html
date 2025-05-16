@@ -1,0 +1,152 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Отчёты</title>
+  <link rel="stylesheet" href="{% static 'content/css/report.css' %}">
+  <style>
+    .export-buttons {
+      margin-top: 20px;
+      margin-bottom: 20px;
+    }
+
+    .export-btn {
+      margin-right: 10px;
+      padding: 8px 12px;
+      background-color: #007BFF;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .export-btn:hover {
+      background-color: #0056b3;
+    }
+
+    .message {
+      padding: 10px;
+      margin: 15px 0;
+      border-radius: 5px;
+    }
+
+    .message.error {
+      background-color: #f8d7da;
+      color: #721c24;
+    }
+
+    .alert-danger {
+      background-color: #f5c6cb;
+      color: #721c24;
+      padding: 10px;
+      border-radius: 5px;
+      margin: 15px 0;
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <h1 class="site-title">Отчёты</h1>
+    </div>
+  </header>
+
+  <nav class="site-nav">
+    <div class="container">
+      <ul class="nav-menu">
+        <li><a href="{% url 'home' %}">Главная</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main class="container">
+
+    <!-- Сообщения Django -->
+    {% if messages %}
+      <div>
+        {% for message in messages %}
+          <div class="message {{ message.tags }}">{{ message }}</div>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    <!-- Проверка прав -->
+    {% if permission_denied %}
+      <div class="alert-danger">У вас нет прав для формирования этого отчёта.</div>
+    {% else %}
+
+      <section class="card animated fade-in">
+        <h2>Параметры отчёта</h2>
+        <form method="get" class="form-card">
+          {{ form.as_p }}
+          <button type="submit" class="btn">Сформировать отчёт</button>
+        </form>
+      </section>
+
+      {% if data %}
+        <section class="card animated fade-in-delayed">
+          <h2>Результаты</h2>
+
+          <!-- Кнопки экспорта -->
+          <div class="export-buttons">
+            <form method="get" style="display:inline;">
+              <input type="hidden" name="report_type" value="{{ request.GET.report_type }}">
+              <input type="hidden" name="start_date" value="{{ request.GET.start_date }}">
+              <input type="hidden" name="end_date" value="{{ request.GET.end_date }}">
+              <input type="hidden" name="export_format" value="pdf">
+              <button type="submit" class="btn export-btn">Скачать PDF</button>
+            </form>
+
+            <form method="get" style="display:inline;">
+              <input type="hidden" name="report_type" value="{{ request.GET.report_type }}">
+              <input type="hidden" name="start_date" value="{{ request.GET.start_date }}">
+              <input type="hidden" name="end_date" value="{{ request.GET.end_date }}">
+              <input type="hidden" name="export_format" value="xlsx">
+              <button type="submit" class="btn export-btn">Скачать Excel</button>
+            </form>
+
+            <form method="get" style="display:inline;">
+              <input type="hidden" name="report_type" value="{{ request.GET.report_type }}">
+              <input type="hidden" name="start_date" value="{{ request.GET.start_date }}">
+              <input type="hidden" name="end_date" value="{{ request.GET.end_date }}">
+              <input type="hidden" name="export_format" value="docx">
+              <button type="submit" class="btn export-btn">Скачать Word</button>
+            </form>
+          </div>
+
+          <div class="table-responsive">
+            <table class="report-table">
+              <thead>
+                <tr>
+                  {% for col in columns %}
+                    <th>{{ col }}</th>
+                  {% endfor %}
+                </tr>
+              </thead>
+              <tbody>
+                {% for row in data %}
+                  <tr>
+                    {% for key, value in row.items %}
+                      <td>{{ value }}</td>
+                    {% endfor %}
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </section>
+      {% elif request.GET.report_type %}
+        <section class="no-data-message">
+          <p>По указанным параметрам отчёта нет данных.</p>
+        </section>
+      {% endif %}
+    {% endif %}
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">&copy; 2025 Учет производства продуктов</div>
+  </footer>
+</body>
+</html>

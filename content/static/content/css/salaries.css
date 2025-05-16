@@ -1,0 +1,317 @@
+/* Сброс базовых стилей и настройка box-sizing */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Заставляем html и body занимать всю высоту */
+html, body {
+    height: 100%;
+}
+
+/* Основные настройки страницы и flex-контейнер для "липкого" футера */
+body {
+    font-family: 'Arial', sans-serif;
+    line-height: 1.6;
+    background-color: #f0f0f0;
+    color: #333;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Контейнер для центрирования контента */
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+/* Стили для шапки сайта */
+.site-header {
+    background-color: #dcdcdc;
+    color: #333;
+    padding: 20px 0;
+    text-align: center;
+    border-bottom: 1px solid #b0b0b0;
+}
+
+/* Стили для навигационного меню */
+.site-nav {
+    background-color: #d3d3d3;
+}
+
+.nav-menu {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+}
+
+.nav-menu li {
+    margin: 0 10px;
+    position: relative;
+}
+
+.nav-menu li a {
+    display: block;
+    padding: 15px 20px;
+    color: #495057;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.nav-menu li a:hover {
+    background-color: #b8b8b8;
+    border-radius: 4px;
+}
+
+/* Стили для выпадающего меню */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f1f1f1;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+    border-radius: 4px;
+}
+
+.dropdown-content li {
+    list-style-type: none;
+}
+
+.dropdown-content li a {
+    padding: 12px 16px;
+    display: block;
+    color: #495057;
+}
+
+.dropdown-content li a:hover {
+    background-color: #ddd;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+/* Основной контент */
+main {
+    flex: 1;
+    padding: 40px 0;
+    text-align: center;
+}
+
+/* Стили для таблицы */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    background: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+th, td {
+    padding: 10px;
+    text-align: left;
+    border: 1px solid #ddd;
+    font-size: 14px;
+}
+
+th {
+    background-color: #6c757d;
+    color: white;
+    text-transform: uppercase;
+    font-size: 12px;
+}
+
+tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* Стили для кнопок */
+.btn, button, input[type="submit"] {
+    display: inline-block;
+    padding: 8px 14px;
+    background-color: #6c757d;
+    color: white;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background 0.3s ease-in-out;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.btn:hover, button:hover, input[type="submit"]:hover {
+    background-color: #5a6268;
+}
+
+button[disabled], input[type="submit"][disabled] {
+    background-color: #adb5bd;
+    cursor: not-allowed;
+}
+
+/* Стили для футера */
+.site-footer {
+    background-color: #dcdcdc;
+    color: #6c757d;
+    text-align: center;
+    padding: 12px 0;
+    border-top: 1px solid #b0b0b0;
+}
+
+/* Контейнер для сообщений */
+.messages {
+    margin-top: 20px;
+    padding: 10px;
+}
+
+.message {
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.message.error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+.message.success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.message.info {
+    background-color: #d1ecf1;
+    color: #0c5460;
+    border: 1px solid #bee5eb;
+}
+
+.message.warning {
+    background-color: #fff3cd;
+    color: #856404;
+    border: 1px solid #ffeeba;
+}
+
+/* Стили для select */
+select {
+    padding: 6px 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: white;
+    color: #333;
+    appearance: none;
+    background-image: url("data:image/svg+xml;utf8,<svg fill='%236c757d' height='20' viewBox='0 0 24 24' width='20' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
+    background-repeat: no-repeat;
+    background-position-x: 95%;
+    background-position-y: center;
+    cursor: pointer;
+    transition: border-color 0.2s;
+    min-width: 200px;
+    margin: 5px 0;
+}
+
+select:focus {
+    outline: none;
+    border-color: #6c757d;
+    box-shadow: 0 0 4px rgba(108, 117, 125, 0.5);
+}
+
+/* Стили для input[type="number"] */
+input[type="number"] {
+    padding: 8px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Центровка форм и элементов */
+form > div {
+    margin-bottom: 12px;
+}
+
+form button {
+    margin-top: 12px;
+}
+
+/* Стиль кнопки "Назад" */
+a.btn {
+    margin-top: 15px;
+}
+
+/* Для input внутри таблицы */
+form table input[type="number"] {
+    width: 80px;
+    padding: 6px;
+}
+
+/* Стили для блока выбора года и месяца */
+.form-row {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin: 15px 0;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+/* Подписи */
+label {
+    margin-bottom: 4px;
+    font-weight: bold;
+    color: #333;
+}
+
+.total-salary {
+    margin-top: 15px;
+    padding: 8px 12px;
+    background-color: #f4f4f4;
+    border-left: 4px solid #ddd;
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .nav-menu {
+        flex-direction: column;
+    }
+
+    .nav-menu li {
+        margin: 5px 0;
+    }
+
+    table th, table td {
+        padding: 8px;
+        font-size: 12px;
+    }
+
+    .form-row {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .form-group {
+        align-items: center;
+    }
+}

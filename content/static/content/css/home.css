@@ -1,0 +1,140 @@
+/* Сброс базовых стилей и настройка box-sizing */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Заставляем html и body занимать всю высоту */
+html, body {
+    height: 100%;
+}
+
+/* Основные настройки страницы и flex-контейнер для "липкого" футера */
+body {
+    font-family: 'Arial', sans-serif;
+    line-height: 1.6;
+    background-color: #f0f0f0;  /* немного темнее, чем прежний #fafafa */
+    color: #333;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Контейнер для центрирования контента */
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+/* Стили для шапки сайта */
+.site-header {
+    background-color: #dcdcdc;  /* немного темнее и нейтральнее */
+    color: #333;
+    padding: 20px 0;
+    text-align: center;
+    border-bottom: 1px solid #b0b0b0;
+}
+
+/* Стили для навигационного меню */
+.site-nav {
+    background-color: #d3d3d3;  /* нейтральный средний серый */
+}
+
+.nav-menu {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+}
+
+.nav-menu li {
+    margin: 0 10px;
+    position: relative; /* Для размещения выпадающих списков */
+}
+
+.nav-menu li a {
+    display: block;
+    padding: 15px 20px;
+    color: #495057;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.nav-menu li a:hover {
+    background-color: #b8b8b8;  /* чуть темнее при наведении */
+    border-radius: 4px;
+}
+
+
+/* Стили для выпадающего меню */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f1f1f1;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+    border-radius: 4px;
+}
+
+.dropdown-content li {
+    list-style-type: none;  /* Убираем маркеры */
+}
+
+.dropdown-content li a {
+    padding: 12px 16px;
+    display: block;
+    color: #495057;
+}
+
+.dropdown-content li a:hover {
+    background-color: #ddd;
+}
+
+
+/* Показать выпадающее меню при наведении */
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+/* Основной контент занимает оставшееся пространство */
+main {
+    flex: 1;
+    padding: 40px 0;
+    text-align: center;
+}
+
+.welcome h2 {
+    margin-bottom: 10px;
+    font-size: 2em;
+    color: #333;
+}
+
+.welcome p {
+    font-size: 1.1em;
+}
+
+/* Стили для футера */
+.site-footer {
+    background-color: #dcdcdc;  /* аналогичный шапке */
+    color: #6c757d;
+    text-align: center;
+    padding: 15px 0;
+    border-top: 1px solid #b0b0b0;
+}
+
+/* Адаптивность для мобильных устройств */
+@media (max-width: 768px) {
+    .nav-menu {
+        flex-direction: column;
+    }
+    .nav-menu li {
+        margin: 5px 0;
+    }
+    .dropdown-content {
+        position: static;  /* Изменение для мобильной версии */
+        box-shadow: none;
+    }
+}

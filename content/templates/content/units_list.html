@@ -1,0 +1,92 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Единицы измерения</title>
+    <link rel="stylesheet" href="{% static 'content/css/styles.css' %}">
+    <style>
+        .flash-message {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            padding: 10px 20px;
+            border-radius: 5px;
+            color: white;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+            font-size: 14px;
+            opacity: 1;
+            transition: opacity 0.5s ease-out;
+        }
+        .flash-message.success { background-color: #4CAF50; }
+        .flash-message.error { background-color: #f44336; }
+        .flash-message.info { background-color: #2196F3; }
+        .flash-message.warning { background-color: #ff9800; }
+    </style>
+</head>
+<body>
+
+<header class="site-header">
+    <nav class="site-nav">
+        <ul class="nav-menu">
+            <li><a href="{% url 'home' %}" class="nav-link">Главная</a></li>
+        </ul>
+    </nav>
+</header>
+
+<main class="container">
+    <h1>Единицы измерения</h1>
+    <a href="{% url 'unit_create' %}" class="btn">➕ Добавить единицу</a>
+
+    <!-- Flash сообщения -->
+    {% if messages %}
+      <div id="flash-messages">
+        {% for message in messages %}
+          <div class="flash-message {{ message.tags }}">
+            {{ message }}
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    <table>
+        <thead>
+            <tr>
+                <th>Название</th>
+                <th>Действия</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for unit in units %}
+            <tr>
+                <td>{{ unit.unitname }}</td>
+                <td>
+                    <a href="{% url 'unit_update' unit.unitid %}">✏️ Редактировать</a> |
+                    <a href="{% url 'unit_delete' unit.unitid %}">🗑️ Удалить</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</main>
+
+<footer class="site-footer">
+    <p>&copy; 2025 Учет производства продуктов</p>
+</footer>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    setTimeout(function () {
+      const messages = document.querySelectorAll('.flash-message');
+      messages.forEach(msg => {
+        msg.style.opacity = '0';
+        setTimeout(() => msg.remove(), 500);
+      });
+    }, 3000);
+  });
+</script>
+
+</body>
+</html>

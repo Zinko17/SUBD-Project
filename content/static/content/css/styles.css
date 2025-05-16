@@ -1,0 +1,320 @@
+/* Сброс базовых стилей и настройка box-sizing */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Заставляем html и body занимать всю высоту */
+html, body {
+    height: 100%;
+}
+
+/* Основные настройки страницы и flex-контейнер для "липкого" футера */
+body {
+    font-family: 'Arial', sans-serif;
+    line-height: 1.6;
+    background-color: #f0f0f0;
+    color: #333;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Контейнер для центрирования контента */
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+/* Стили для шапки сайта */
+.site-header {
+    background-color: #dcdcdc;
+    color: #333;
+    padding: 20px 0;
+    text-align: center;
+    border-bottom: 1px solid #b0b0b0;
+}
+
+/* Стили для навигационного меню */
+.site-nav {
+    background-color: #d3d3d3;
+}
+
+.nav-menu {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+}
+
+.nav-menu li {
+    margin: 0 10px;
+    position: relative;
+}
+
+.nav-menu li a {
+    display: block;
+    padding: 15px 20px;
+    color: #495057;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.nav-menu li a:hover {
+    background-color: #b8b8b8;
+    border-radius: 4px;
+}
+
+/* Основной контент занимает оставшееся пространство */
+main {
+    flex: 1;
+    padding: 40px 0;
+    text-align: center;
+}
+
+/* ==== Карточки (с расширенной шириной) ==== */
+.card {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    margin: 0 auto 30px;
+    /* теперь карточки тянутся на всю ширину контейнера */
+    width: 100%;
+    text-align: left;
+}
+
+/* Убираем буллиты у списков внутри карточек */
+.card ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.card ul li {
+    margin-bottom: 8px;
+}
+
+/* Заголовки внутри карточек */
+.card h2,
+.card h3 {
+    margin-bottom: 15px;
+    font-size: 1.4em;
+}
+
+/* Адаптивная обёртка для таблицы */
+.table-responsive {
+    overflow-x: auto;
+}
+
+/* Стили для таблицы */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    background: white;
+}
+
+th, td {
+    padding: 12px;
+    text-align: left;
+    border: 1px solid #ddd;
+}
+
+th {
+    background-color: #6c757d;
+    color: white;
+    text-transform: uppercase;
+}
+
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+tr:hover {
+    background-color: #e9ecef;
+}
+
+/* Стили для кнопок */
+.btn {
+    display: inline-block;
+    padding: 10px 16px;
+    background-color: #6c757d;
+    color: white;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background 0.3s ease-in-out;
+}
+
+.btn:hover {
+    background-color: #5a6268;
+}
+
+/* Стили для футера */
+.site-footer {
+    background-color: #dcdcdc;
+    color: #6c757d;
+    text-align: center;
+    padding: 15px 0;
+    border-top: 1px solid #b0b0b0;
+}
+
+/* Контейнер для сообщений */
+.messages {
+    margin-top: 20px;
+    padding: 10px;
+}
+
+/* Общий стиль для сообщений */
+.message {
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.message.error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+.message.success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.message.info {
+    background-color: #d1ecf1;
+    color: #0c5460;
+    border: 1px solid #bee5eb;
+}
+
+.message.warning {
+    background-color: #fff3cd;
+    color: #856404;
+    border: 1px solid #ffeeba;
+}
+
+/* Адаптивность: для небольших экранов */
+@media (max-width: 768px) {
+    .nav-menu {
+        flex-direction: column;
+    }
+    .nav-menu li {
+        margin: 5px 0;
+    }
+}
+
+/* ==== Стили для форм ==== */
+.form-card {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    margin: 40px auto;
+    max-width: 500px;
+    text-align: left;
+}
+
+.form-card h2 {
+    margin-bottom: 20px;
+    font-size: 1.5em;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #495057;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 8px 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1em;
+    transition: border-color 0.3s ease;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: #6c757d;
+}
+
+.form-card .btn {
+    margin-right: 10px;
+}
+
+/* ==== Статусы и выделения ==== */
+.status-paid {
+    display: inline-block;
+    background-color: #d4edda;
+    color: #155724;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-weight: bold;
+}
+
+.status-active {
+    display: inline-block;
+    background-color: #f8d7da;
+    color: #721c24;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-weight: bold;
+}
+
+/* Сообщение о полном погашении */
+.paid-message {
+    display: inline-block;
+    background-color: #d4edda;
+    color: #155724;
+    padding: 10px 15px;
+    border-radius: 4px;
+    font-weight: bold;
+    margin: 20px 0;
+}
+
+/* Стили для выпадающего меню */
+.nav-menu li.dropdown {
+    position: relative; /* Для корректного отображения подменю */
+}
+
+.nav-menu li.dropdown .dropdown-content {
+    display: none; /* Скрываем подменю по умолчанию */
+    position: absolute;
+    top: 100%; /* Располагаем подменю под родительским элементом */
+    left: 0;
+    background-color: #fff;
+    min-width: 180px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    z-index: 999;
+    border-radius: 4px;
+}
+
+.nav-menu li.dropdown:hover .dropdown-content {
+    display: block; /* Показываем подменю при наведении */
+}
+
+.nav-menu .dropdown-content li {
+    padding: 10px 20px;
+}
+
+.nav-menu .dropdown-content li a {
+    color: #495057;
+}
+
+.nav-menu .dropdown-content li a:hover {
+    background-color: #f8f8f8;
+    border-radius: 4px;
+}

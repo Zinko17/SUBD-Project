@@ -1,0 +1,95 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Добавить / Редактировать ингредиент</title>
+    <link rel="stylesheet" href="{% static 'content/css/styles.css' %}">
+    <style>
+        .flash-message {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 9999;
+            padding: 10px 20px;
+            border-radius: 5px;
+            color: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            font-size: 14px;
+            opacity: 1;
+            transition: opacity 0.5s ease-out;
+        }
+        .flash-message.error { background-color: #f44336; }
+        .flash-message.success { background-color: #4CAF50; }
+        .flash-message.info { background-color: #2196F3; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="site-header">
+            <nav class="site-nav">
+                <div class="container">
+                    <ul class="nav-menu">
+                        <li><a href="{% url 'home' %}">Главная</a></li>
+                        <li><a href="{% url 'product_ingredients' product.productid %}">Продукты</a></li>
+                    </ul>
+                </div>
+            </nav>
+            <h1>{% if form.instance.pk %}Редактировать{% else %}Добавить{% endif %} ингредиент для продукта {{ product.name }}</h1>
+        </header>
+
+        <main>
+            <!-- Flash сообщения -->
+            {% if messages %}
+                <div id="flash-messages">
+                    {% for message in messages %}
+                        <div class="flash-message {{ message.tags }}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            <form method="post">
+                {% csrf_token %}
+                <div class="form-group">
+
+                    <div class="form-field">
+                        <label>Выбранный продукт:</label>
+                        <input type="text" value="{{ product.name }}" readonly>
+                        {{ form.productid.as_hidden }}
+                    </div>
+
+                    <div class="form-field"> Выберите сырье:
+                        {{ form.rawmaterialid }}
+                    </div>
+
+                    <div class="form-field"> Выберите количество:
+                        {{ form.quantity }}
+                    </div>
+                </div>
+
+                <div class="btn-group">
+                    <button type="submit" class="btn">💾 Сохранить</button>
+                    <a href="{% url 'product_ingredients' product.productid %}" class="btn btn-secondary">↩️ Назад</a>
+                </div>
+            </form>
+        </main>
+
+        <footer class="site-footer">
+            <p>&copy; 2025 Учет производства продуктов</p>
+        </footer>
+    </div>
+
+    <!-- Скрипт для скрытия сообщений -->
+    <script>
+        setTimeout(() => {
+            const messages = document.querySelectorAll('.flash-message');
+            messages.forEach(msg => {
+                msg.style.opacity = '0';
+                setTimeout(() => msg.remove(), 500);
+            });
+        }, 3000);
+    </script>
+</body>
+</html>

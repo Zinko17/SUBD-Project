@@ -1,0 +1,74 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Удалить единицу измерения</title>
+  <link rel="stylesheet" href="{% static 'content/css/styles.css' %}">
+  <style>
+    .flash-message {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 9999;
+      padding: 10px 20px;
+      border-radius: 5px;
+      color: white;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+      font-size: 14px;
+      opacity: 1;
+      transition: opacity 0.5s ease-out;
+    }
+    .flash-message.error { background-color: #f44336; }
+    .flash-message.success { background-color: #4CAF50; }
+    .flash-message.info { background-color: #2196F3; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header class="site-header">
+      <h1>Удалить единицу измерения</h1>
+    </header>
+
+    <!-- Flash сообщения -->
+    {% if messages %}
+      <div id="flash-messages">
+        {% for message in messages %}
+          <div class="flash-message {{ message.tags }}">
+            {{ message }}
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    <main>
+      <p>Вы уверены, что хотите удалить единицу измерения <strong>{{ unit.unitname }}</strong>?</p>
+
+      <form method="post">
+        {% csrf_token %}
+        <div class="btn-group">
+          <button type="submit" class="btn btn-danger">✅ Удалить</button>
+          <a href="{% url 'units_list' %}" class="btn btn-secondary">❌ Отмена</a>
+        </div>
+      </form>
+    </main>
+
+    <footer class="site-footer">
+      <p>&copy; 2025 Учет производства продуктов</p>
+    </footer>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      setTimeout(function () {
+        const messages = document.querySelectorAll('.flash-message');
+        messages.forEach(msg => {
+          msg.style.opacity = '0';
+          setTimeout(() => msg.remove(), 500);
+        });
+      }, 3000);
+    });
+  </script>
+</body>
+</html>

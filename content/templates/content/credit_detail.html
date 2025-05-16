@@ -1,0 +1,152 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Кредит №{{ credit.creditid }}</title>
+  <link rel="stylesheet" href="{% static 'content/css/styles.css' %}">
+  <style>
+    .flash-message {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 9999;
+      padding: 10px 20px;
+      border-radius: 5px;
+      color: white;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+      font-size: 14px;
+      opacity: 1;
+      transition: opacity 0.5s ease-out;
+    }
+    .flash-message.error { background-color: #f44336; }
+    .flash-message.success { background-color: #4CAF50; }
+    .flash-message.info { background-color: #2196F3; }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <h1>Кредит №{{ credit.creditid }}</h1>
+    </div>
+  </header>
+
+  <nav class="site-nav">
+    <div class="container">
+      <ul class="nav-menu">
+        <li><a href="{% url 'home' %}">Главная</a></li>
+        <li><a href="{% url 'credit_list' %}" class="active">Кредиты</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main class="container">
+    <!-- Обработка сообщений -->
+    {% if messages %}
+      <div id="flash-messages">
+        {% for message in messages %}
+          <div class="flash-message {{ message.tags }}">
+            {{ message }}
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    <!-- Инфо о кредите -->
+    <section class="card">
+      <h2>Информация о кредите</h2>
+      <ul>
+        <li><strong>Сумма:</strong> {{ credit.amount|floatformat:2 }} руб.</li>
+        <li><strong>Ставка годовых:</strong> {{ credit.interest|floatformat:2 }} %</li>
+        <li><strong>Дата выдачи:</strong> {{ credit.credit_date }}</li>
+        <li><strong>Срок:</strong> {{ credit.months }} мес.</li>
+        <li><strong>Пени:</strong> {{ credit.late_fee|floatformat:2 }} %/день</li>
+        {% if not credit.is_paid_off %}
+          <li><strong>Следующий платёж:</strong> {{ next_due|date:"j F Y" }}</li>
+        {% endif %}
+        <li>
+          <strong>Статус:</strong>
+          {% if credit.is_paid_off %}
+            <span class="status-paid">Выплачен</span>
+          {% else %}
+            <span class="status-active">Активен</span>
+          {% endif %}
+        </li>
+      </ul>
+    </section>
+
+    <!-- Таблица выплат -->
+    <section class="card">
+      <h2>Выплаты</h2>
+      <div class="table-responsive">
+        <table>
+          <thead>
+            <tr>
+              <th>#</th><th>Дата</th><th>Часть</th>
+              <th>Проценты</th><th>Просрочено</th><th>Пени</th><th>Итого</th><th>Остаток</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for p in payments %}
+              <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ p.payment_date }}</td>
+                <td>{{ p.credit_part|floatformat:6 }}</td>
+                <td>{{ p.interest|floatformat:2 }}</td>
+                <td>{{ p.overdue_days }}</td>
+                <td>{{ p.penalty }}</td>
+                <td>{{ p.total_payment|floatformat:6 }}</td>
+                <td>{{ p.remaining_credit|floatformat:2 }}</td>
+              </tr>
+            {% empty %}
+              <tr><td colspan="7">Платежей пока нет</td></tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Форма нового платежа -->
+    {% if not credit.is_paid_off %}
+      <section>
+        <h3>Новый платёж</h3>
+        <form method="post" class="form-card">
+          {% csrf_token %}
+          <div class="form-group">
+            {{ form.payment_date.label_tag }}
+            {{ form.payment_date }}
+            {% if form.payment_date.errors %}
+              <div class="error">{{ form.payment_date.errors }}</div>
+            {% endif %}
+          </div>
+          <button type="submit" class="btn">Записать платёж</button>
+          <a href="{% url 'credit_list' %}" class="btn">Назад</a>
+        </form>
+      </section>
+    {% else %}
+      <section class="card" style="text-align: center;">
+        <div class="paid-message">Кредит полностью выплачен</div>
+        <a href="{% url 'credit_list' %}" class="btn">Назад к списку</a>
+      </section>
+    {% endif %}
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>&copy; 2025 Учет производства продуктов</p>
+    </div>
+  </footer>
+
+  <!-- Скрипт для скрытия сообщений -->
+  <script>
+    setTimeout(() => {
+      const messages = document.querySelectorAll('.flash-message');
+      messages.forEach(msg => {
+        msg.style.opacity = '0';
+        setTimeout(() => msg.remove(), 500);
+      });
+    }, 3000);
+  </script>
+</body>
+</html>

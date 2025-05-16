@@ -1,0 +1,53 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Должности</title>
+    <link rel="stylesheet" href="{% static 'content/css/styles.css' %}">
+</head>
+<body>
+    <header class="site-header">
+        <div class="container">
+            <h1>Должности</h1>
+        </div>
+    </header>
+
+    <nav class="site-nav">
+        <div class="container">
+            <ul class="nav-menu">
+                <li><a href="{% url 'home' %}">Главная</a></li>
+                <li><a href="{% url 'employee_list' %}">Сотрудники</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="container">
+        <h2>Список должностей</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Название должности</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for position in positions %}
+                <tr>
+                    <td>{{ position.positionname }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td>Нет данных</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p>&copy; 2025 Учет проихводства</p>
+        </div>
+    </footer>
+</body>
+</html>

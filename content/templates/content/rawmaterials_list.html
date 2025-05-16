@@ -1,0 +1,96 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Сырьё</title>
+    <link rel="stylesheet" href="{% static 'content/css/styles.css' %}">
+    <style>
+      .flash-message {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        z-index: 9999;
+        padding: 10px 20px;
+        border-radius: 5px;
+        color: white;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        font-size: 14px;
+        opacity: 1;
+        transition: opacity 0.5s ease-out;
+      }
+      .flash-message.error { background-color: #f44336; }
+      .flash-message.success { background-color: #4CAF50; }
+      .flash-message.info { background-color: #2196F3; }
+    </style>
+</head>
+<body>
+
+    <header class="site-header">
+        <nav class="site-nav">
+            <ul class="nav-menu">
+                <li><a href="{% url 'home' %}" class="nav-link">Главная</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container">
+        <h1>Сырьё</h1>
+        <a href="{% url 'raw_material_create' %}" class="btn">➕ Добавить сырьё</a>
+
+        <!-- Сообщения об ошибках и успехах -->
+        {% if messages %}
+            <div id="flash-messages">
+                {% for message in messages %}
+                    <div class="flash-message {% if message.tags %}{{ message.tags }}{% endif %}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Название</th>
+                    <th>Единица измерения</th>
+                    <th>Количество</th>
+                    <th>Общая сумма</th>
+                    <th>Действия</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for rawmaterial in rawmaterials %}
+                <tr>
+                    <td>{{ rawmaterial.name }}</td>
+                    <td>{{ rawmaterial.unitid.unitname }}</td>
+                    <td>{{ rawmaterial.quantity }}</td>
+                    <td>{{ rawmaterial.totalamount }}</td>
+                    <td>
+                        <a href="{% url 'raw_material_update' rawmaterial.rawmaterialid %}">✏️ Редактировать</a> |
+                        <a href="{% url 'raw_material_delete' rawmaterial.rawmaterialid %}" >🗑️ Удалить</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </main>
+
+    <footer class="site-footer">
+        <p>&copy; 2025 Учет производства продуктов</p>
+    </footer>
+
+    <!-- Скрипт для скрытия сообщений -->
+    <script>
+      setTimeout(() => {
+        const messages = document.querySelectorAll('.flash-message');
+        messages.forEach(msg => {
+          msg.style.opacity = '0';
+          setTimeout(() => msg.remove(), 500);
+        });
+      }, 3000);
+    </script>
+
+</body>
+</html>

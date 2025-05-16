@@ -1,0 +1,69 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Удалить продукцию</title>
+  <link rel="stylesheet" href="{% static 'content/css/styles.css' %}">
+</head>
+<body>
+  <header class="site-header">
+    <!-- Навигационное меню -->
+    <nav class="site-nav">
+        <div class="container">
+            <ul class="nav-menu">
+                <li class="dropdown">
+                    <a href="#">Управление продукцией</a>
+                    <ul class="dropdown-content">
+                        <li><a href="{% url 'rawmaterials_list' %}">Сырье</a></li>
+                        <li><a href="{% url 'finishedgoods_list' %}">Продукты</a></li>
+                        <li><a href="{% url 'units_list' %}">Единицы измерения</a></li>
+                        <li><a href="{% url 'ingredients_list' %}">Список ингредиентов</a></li>
+                        <li><a href="{% url 'rawmaterialpurchases_list' %}">Список закупок</a></li>
+                    </ul>
+                </li>
+                <li><a href="{% url 'purchase_raw_material' %}">Закупка сырья</a></li>
+            </ul>
+        </div>
+    </nav>
+  </header>
+
+  <main class="container">
+    <!-- Вывод сообщений -->
+    {% if messages %}
+      <div id="flash-messages">
+        {% for message in messages %}
+          <div class="flash-message {{ message.tags }}">
+            {{ message }}
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    <h1>Удалить продукцию</h1>
+    <p>Вы уверены, что хотите удалить продукцию <strong>{{ finishedgood.name }}</strong>?</p>
+
+    <form method="post">
+      {% csrf_token %}
+      <button type="submit" class="btn">✅ Удалить</button>
+      <a href="{% url 'finishedgoods_list' %}" class="btn">❌ Отмена</a>
+    </form>
+  </main>
+
+  <footer class="site-footer">
+    <p>&copy; 2025 Моя Компания</p>
+  </footer>
+
+  <!-- Скрипт для скрытия сообщений -->
+  <script>
+    setTimeout(() => {
+      const messages = document.querySelectorAll('.flash-message');
+      messages.forEach(msg => {
+        msg.style.opacity = '0';
+        setTimeout(() => msg.remove(), 500);
+      });
+    }, 3000);
+  </script>
+</body>
+</html>

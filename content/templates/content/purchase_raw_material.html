@@ -1,0 +1,101 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Закупка сырья</title>
+    <link rel="stylesheet" href="{% static 'content/css/purchase_raw_material.css' %}">
+    <style>
+        .flash-message {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 9999;
+            padding: 10px 20px;
+            border-radius: 5px;
+            color: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            font-size: 14px;
+            opacity: 1;
+            transition: opacity 0.5s ease-out;
+        }
+        .flash-message.error { background-color: #f44336; }
+        .flash-message.success { background-color: #4CAF50; }
+        .flash-message.info { background-color: #2196F3; }
+    </style>
+</head>
+<body>
+    <!-- Верхнее меню -->
+    <header>
+        <nav>
+            <a href="{% url 'home' %}" class="nav-link">Главная</a>
+        </nav>
+    </header>
+
+    <!-- Основной контент -->
+    <main class="container">
+        <h2>Закупка сырья</h2>
+
+        <!-- Сообщения об ошибках и успехах -->
+        {% if messages %}
+            <div id="flash-messages">
+                {% for message in messages %}
+                    <div class="flash-message {% if message.tags %}{{ message.tags }}{% endif %}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <form method="post" novalidate>
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="id_rawmaterialid">Выберите сырье:</label>
+                <select name="rawmaterialid" id="id_rawmaterialid" class="form-control">
+                    {% for material in rawmaterials %}
+                        <option value="{{ material.rawmaterialid }}" {% if form.rawmaterialid.value == material.id %}selected{% endif %}>
+                            {{ material.name }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="quantity">Количество:</label>
+                <input type="number" name="quantity" id="quantity" step="1" required
+                       value="{{ form.quantity.value }}"
+                       class="form-control" placeholder="Введите количество">
+            </div>
+
+            <div class="form-group">
+                <label for="{{ form.unit_price.id_for_label }}">Цена за единицу:</label>
+                <input type="number" name="unit_price" id="{{ form.unit_price.id_for_label }}"
+                       step="0.01" min="0" required class="form-control"
+                       value="{{ form.unit_price.value }}" placeholder="Введите цену">
+            </div>
+
+            <div class="form-group">
+                <label for="purchasedate">Дата покупки:</label>
+                <input type="date" name="purchasedate" id="purchasedate"
+                       value="{{ form.initial.purchasedate|date:'Y-m-d' }}" required
+                       class="form-control">
+            </div>
+
+
+            <button type="submit" class="btn-submit">Закупить</button>
+        </form>
+    </main>
+
+    <!-- Скрипт для скрытия сообщений -->
+    <script>
+        setTimeout(() => {
+            const messages = document.querySelectorAll('.flash-message');
+            messages.forEach(msg => {
+                msg.style.opacity = '0';
+                setTimeout(() => msg.remove(), 500);
+            });
+        }, 3000);
+    </script>
+</body>
+</html>

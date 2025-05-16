@@ -1,0 +1,80 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>{{ title }}</title>
+  <style>
+  @font-face {
+    font-family: 'DejaVu Sans';
+    src: url("{{ font_url }}");
+  }
+
+  body {
+    font-family: 'DejaVu Sans';
+  }
+
+  h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 20px;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+    word-wrap: break-word;
+  }
+
+  th, td {
+    border: 1px solid #444;
+    padding: 8px;
+    text-align: left;
+    word-break: break-word;
+    font-size: 11px;
+  }
+
+  th {
+    background-color: #f2f2f2;
+  }
+
+  .no-data {
+    margin-top: 30px;
+    padding: 15px;
+    background: #f8d7da;
+    color: #721c24;
+    border-radius: 5px;
+    text-align: center;
+  }
+  </style>
+</head>
+<body>
+  <h1>{{ title }}</h1>
+
+  {% if data %}
+    <table>
+      <thead>
+        <tr>
+          {% for col in columns %}
+            <th>{{ col }}</th>
+          {% endfor %}
+        </tr>
+      </thead>
+      <tbody>
+        {% for row in data %}
+          <tr>
+            {% for key, value in row.items %}
+              <td>{{ value }}</td>
+            {% endfor %}
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <div class="no-data">
+      <p>По указанным параметрам отчёта нет данных.</p>
+    </div>
+  {% endif %}
+</body>
+</html>
