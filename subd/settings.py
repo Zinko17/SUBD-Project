@@ -96,7 +96,7 @@ WSGI_APPLICATION = 'subd.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'ResourceTrackingDB',
+        'NAME': 'название бд',
         'USER': 'postgres',
         'PASSWORD': 'пароль',
         'HOST': 'localhost',
