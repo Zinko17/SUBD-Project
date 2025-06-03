@@ -98,7 +98,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'ResourceTrackingDB',
         'USER': 'postgres',
-        'PASSWORD': 'zinko0576',
+        'PASSWORD': 'пароль',
         'HOST': 'localhost',
         'PORT': '5432',
     }
